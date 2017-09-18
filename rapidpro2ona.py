@@ -1,31 +1,40 @@
-#! /usr/bin/python
+#!/usr/bin/env python
 import urlparse
 import json
 import requests
+from config import TEST_DATA, ONA_FORM_ID, ONA_SUBMISSION_URL
+
 
 def get_dict_from_rapidpro_data(data):
-  data_dict = urlparse.parse_qs(data)
-  return data_dict
+    """
+    Returns a dict from RapidPro query string.
+    """
+    data_dict = urlparse.parse_qs(data)
+    return data_dict
 
-# data = get_dict_from_rapidpro_data(response_string)
-# print data
 
 def ona_submission_json(data):
-  submission_dict = dict()
-  values = json.loads(data['values'][0])
-  for value in values:
-    submission_dict[value['label']] = value['text']
+    submission_dict = dict()
+    values = json.loads(data['values'][0])
+    for value in values:
+      submission_dict[value['label']] = value['text']
+    return submission_dict
 
-  return submission_dict
 
-# submission_dict = ona_submission_json(data)
-# print submission_dict
+def post_to_ona_form(data, url=ONA_SUBMISSION_URL, id_string=ONA_FORM_ID):
+    payload = {'id': id_string, 'submission': data}
+    headers = {'Content-Type': 'application/json'}
+    response = requests.post(url, data=json.dumps(payload), headers=headers)
+    if response.status_code in [201, 202]:
+      return True
+    
+    return False
 
-# url = 'http://localhost:8000/nate/submission'
-# payload = {'id': 'rapidpro_example', 'submission': submission_dict}
-# headers = {'Content-Type: application/json',
-#            'Authorization: Token 0388df853306ce9d845b94b81f29a6ef29c9f679'}
-# res = requests.post(url, data=payload, headers=headers)
-# print res
 
-# curl - H "Content-Type: application/json" - H "Authorization: Token 0388df853306ce9d845b94b81f29a6ef29c9f679" - X POST "http://localhost:8000/nate/submission" - d '{"id":"rapidpro_example","submission":{"gender": "female", "age": "23", "name": "nate", "no_children": "0"}}'
+if __name__ == '__main__':
+  data = get_dict_from_rapidpro_data(TEST_DATA)
+  submission_data = ona_submission_json(data)
+  if post_to_ona_form(submission_data):
+    print 'Success'
+  else:
+    print 'Fail'
