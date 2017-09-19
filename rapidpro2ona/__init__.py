@@ -1,8 +1,12 @@
 #!/usr/bin/env python
-import urlparse
+try:
+    import urllib.parse as urlparse
+except ImportError:
+    import urlparse
 import json
+
 import requests
-from config import TEST_DATA, ONA_FORM_ID, ONA_SUBMISSION_URL
+from rapidpro2ona.config import ONA_FORM_ID, ONA_SUBMISSION_URL, TEST_DATA
 
 
 def get_dict_from_rapidpro_data(data):
@@ -17,7 +21,7 @@ def ona_submission_json(data):
     submission_dict = dict()
     values = json.loads(data['values'][0])
     for value in values:
-      submission_dict[value['label']] = value['text']
+        submission_dict[value['label']] = value['text']
     return submission_dict
 
 
@@ -26,15 +30,15 @@ def post_to_ona_form(data, url=ONA_SUBMISSION_URL, id_string=ONA_FORM_ID):
     headers = {'Content-Type': 'application/json'}
     response = requests.post(url, data=json.dumps(payload), headers=headers)
     if response.status_code in [201, 202]:
-      return True
-    
+        return True
+
     return False
 
 
 if __name__ == '__main__':
-  data = get_dict_from_rapidpro_data(TEST_DATA)
-  submission_data = ona_submission_json(data)
-  if post_to_ona_form(submission_data):
-    print 'Success'
-  else:
-    print 'Fail'
+    data = get_dict_from_rapidpro_data(TEST_DATA)
+    submission_data = ona_submission_json(data)
+    if post_to_ona_form(submission_data):
+        print("Success")
+    else:
+        print("Fail")

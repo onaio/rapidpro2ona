@@ -1,0 +1,6 @@
+-r requirements.in
+nose
+pylint
+pip-tools
+yapf
+isort
