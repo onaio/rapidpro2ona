@@ -1,6 +1,6 @@
-# RapidPro to Ona 
+# RapidPro to Ona
 
-This is a script used to make JSON form submissions to Ona forms from data received from a RapidPro flow POST webhook.
+This is a script used to integrate Rapidpro and Ona by making JSON form submissions to Ona forms from data received from a RapidPro flow POST webhook.
 
 ## Prerequisites
 
@@ -26,5 +26,5 @@ $ ./__init__.py
 
 Unittests:
 ```
-nosetests
+$ nosetests
 ```
