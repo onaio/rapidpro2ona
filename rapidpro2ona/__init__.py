@@ -18,9 +18,9 @@ def get_dict_from_rapidpro_data(data):
 
 
 def ona_submission_json(data):
-  """
-  Returns a dict that matches an Ona form
-  """
+    """
+    Returns a dict that matches an Ona form
+    """
     submission_dict = dict()
     values = json.loads(data['values'][0])
     for value in values:
@@ -29,9 +29,9 @@ def ona_submission_json(data):
 
 
 def post_to_ona_form(data, url=ONA_SUBMISSION_URL, id_string=ONA_FORM_ID):
-  """
-  Make a HTTP Request POST to an Ona form.
-  """
+    """
+    Make a HTTP Request POST to an Ona form.
+    """
     payload = {'id': id_string, 'submission': data}
     headers = {'Content-Type': 'application/json'}
     response = requests.post(url, data=json.dumps(payload), headers=headers)
