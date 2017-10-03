@@ -6,7 +6,7 @@ except ImportError:
 import json
 
 import requests
-from rapidpro2ona.config import ONA_FORM_ID, ONA_SUBMISSION_URL, TEST_DATA
+from config import ONA_FORM_ID, ONA_SUBMISSION_URL, TEST_DATA
 
 
 def get_dict_from_rapidpro_data(data):
