@@ -1,4 +1,7 @@
 #!/usr/bin/env python
+"""
+Tell the compiler it is a python scipt.
+"""
 try:
     import urllib.parse as urlparse
 except ImportError:
@@ -6,15 +9,15 @@ except ImportError:
 import json
 
 import requests
-from config import ONA_FORM_ID, ONA_SUBMISSION_URL, TEST_DATA
+from rapidpro2ona.config import ONA_FORM_ID, ONA_SUBMISSION_URL, TEST_DATA
 
 
 def get_dict_from_rapidpro_data(data):
     """
     Returns a dict from RapidPro query string.
     """
-    data_dict = urlparse.parse_qs(data)
-    return data_dict
+    parsed_data = urlparse.parse_qs(data)
+    return parsed_data
 
 
 def ona_submission_json(data):
@@ -42,9 +45,9 @@ def post_to_ona_form(data, url=ONA_SUBMISSION_URL, id_string=ONA_FORM_ID):
 
 
 if __name__ == '__main__':
-    data = get_dict_from_rapidpro_data(TEST_DATA)
-    submission_data = ona_submission_json(data)
-    if post_to_ona_form(submission_data):
-        print("Success")
+    DATA = get_dict_from_rapidpro_data(TEST_DATA)
+    SUBMISSION_DATA = ona_submission_json(DATA)
+    if post_to_ona_form(SUBMISSION_DATA):
+        print "Success"
     else:
-        print("Fail")
+        print "Fail"
